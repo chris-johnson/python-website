@@ -1,0 +1,7 @@
+---
+title: "`rasterio`"
+---
+
+Python package Rasterio
+
+To get the memory address of an object in Python, use `print(id(object))`. This will be important if Rasterio objects are a reference to data on disk, i.e. the raster isn't loaded into memory (which is probably what happens as advancements in memory will always be riding the coat tail of image resolution).

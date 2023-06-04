@@ -1,0 +1,88 @@
+---
+title: "Matplotlib"
+---
+
+## Overview
+
+Matplotlib works like an Etch A Sketch.
+
+## 
+
+Let's assume the following for this document:
+
+```
+import matplotlib.pyplot as plt
+```
+
+##
+
+Matplotlib can be imported with `import matplotlib.pyplot as plt`.
+
+```
+a = list(range(0, 10))
+b = list(range(10, 0, -1))
+
+plt.plot(a, b)
+```
+
+Note: By default, `plt.plot()` will draw a line plot, connecting all the points in the order they're provided in the lists.
+
+Without an axis definition, the plot window will scale to fit all data points. But with an axis definition, we can zoom to a specific area. (This is especially helpful for working with geospatial data.)
+
+To do this, use `plt.axis()`. Example:
+
+```
+a = [0, -100, 25, 67, -323]
+b = [0, 3, 7, 3, 9]
+```
+
+Looking at the data, we can see that we have a one-to-many situation, and this line is going to traverse backwards and create a triangle. (Etch A Sketch?)
+
+Let's zoom in on the triangle. To do so, use `plt.axis()`, and provide the x-axis limits and y-axis limits. The limits for both are min and max:
+
+```
+plt.axis([-50, 80, 2, 8])
+plt.plot(a, b)
+```
+
+To finish it off, add a title and label the axes:
+
+```
+plt.title("Triangle")
+plt.xlabel("a")
+plt.ylabel("b")
+plt.axis([-50, 80, 2, 8])
+plt.plot(a, b)
+```
+
+It's clear that all plot configurations should precede the call to `plt.plot()`.
+
+Another cool thing is overriding the tick labels:
+
+`plt.xticks((-40, -20, 0, 20, 40, 60, 80), ("h", "e", "l", "l", "o", "o", "o"))`
+
+Note: `plt.*ticks()` uses tuples and not lists.
+
+To specify that the line should be colored red, add `color = "red"` to `plt.plot()`. For example, `plt.plot(a, b, color = "red")`.
+
+## Other plot types
+
+`plt.hist(a)`
+
+## Subplots
+
+<!-- Work in info from https://www.geeksforgeeks.org/place-plots-side-by-side-in-matplotlib/ -->
+
+## Other functions
+
+`plt.show()` shows the current figure. `plt.draw()` re-draws the figure (useful if updates have been made).
+
+## Matplotlib in Jupyter Notebooks
+
+When developing a Jupyter Notebook, if you want your Matplotlib plots to appear in the notebook rather than in a separate window, run the magic `%matplotlib inline` in a cell (preferably near the top, but anywhere before the first plot will work).
+
+## References
+
+https://www.youtube.com/watch?v=nzKy9GY12yo
+https://stackoverflow.com/questions/23141452/difference-between-plt-draw-and-plt-show-in-matplotlib
+https://www.geeksforgeeks.org/place-plots-side-by-side-in-matplotlib/

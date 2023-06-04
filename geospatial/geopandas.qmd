@@ -1,0 +1,60 @@
+---
+title: "`geopandas`"
+---
+
+## Overview
+
+Geopandas is a Python package for working with vector data.
+
+[Official documenation](https://geopandas.org/en/stable/docs/user_guide.html)
+
+Overlays accomplish set operations.
+Dissolve accomplishes aggregation.
+
+## This
+
+```
+import geopandas as gpd
+```
+
+## Reading data
+
+
+Note: The Fiona package has a function to list the layers in an Esri geodatabase. It is `fiona.listlayers("path/to/my-esri.gdb")`. This is nice because `gpd.read_file()` allows reading in a layer from an Esri geodatabase by name (in addition to positional reference). Example:
+
+```
+layer_names = fiona.listlayers("path/to/my-esri.gdb")
+print(layer_names)
+
+# Let "land_use" be the name of one of the feature classes in the geodatabase
+
+land_use = gpd.read_file(
+  "path/to/my-esri.gdb", 
+  driver = "FileGDB", 
+  layer = "land_use"
+)
+```
+
+## `GeoSeries` objects
+
+## `GeoDataFrame` objects
+
+<!-- 
+Is a GeoDataFrame simply the child of Pandas and Shapely?
+
+It seems a GeoDataFrame is a Pandas `DataFrame` object with a special column that is type `GeoSeries`.
+-->
+
+Let `gdf` be a `GeoDataFrame` object. `gdf.total_bounds` will return the minimum x-value, minimum y-value, maximum x-value, and maximum y-value (in that order). These can be unpackaged as
+
+```
+x_min, y_min, x_max, y_max = gdf.total_bounds
+```
+
+## Making maps with Geopandas
+
+https://gis.stackexchange.com/questions/375582/zoom-to-a-plot-with-geopandas-based-on-data-from-csv-and-shapefile
+
+## References
+
+https://gis.stackexchange.com/questions/375582/zoom-to-a-plot-with-geopandas-based-on-data-from-csv-and-shapefile

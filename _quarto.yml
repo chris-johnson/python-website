@@ -1,0 +1,51 @@
+project:
+  type: website
+
+website:
+  title: "Python website"
+  navbar:
+    left:
+      - text: Home
+        href: index.qmd
+      - text: Fundamentals
+        href: fundamentals/index.qmd
+      - text: Software
+        href: software/index.qmd
+      - text: ML
+        href: ml/index.qmd
+      - text: Geospatial
+        href: geospatial/index.qmd
+  
+  sidebar:
+    - id: "fundamentals"
+      contents:
+        - fundamentals/index.qmd
+        - fundamentals/basic-tricks.qmd
+        - fundamentals/matplotlib.qmd
+        - fundamentals/modules.qmd
+    - id: "softare"
+      contents:
+        - software/index.qmd
+        - software/anaconda.qmd
+        - software/jupyterlab.qmd
+    - id: "ml"
+      contents:
+        - ml/index.qmd
+    - id: "geospatial"
+      contents:
+        - geospatial/index.qmd
+        - section: "Packages"
+          contents:
+            - geospatial/geodatasets.qmd
+            - geospatial/geopandas.qmd
+            - geospatial/rasterio.qmd
+            - geospatial/shapely.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+
+

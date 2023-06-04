@@ -1,0 +1,43 @@
+---
+title: "`shapely`"
+---
+
+## This
+
+```
+from shapely.geometry import Polygon
+```
+
+## Create polygons from scratch
+
+`Polygon()` constructs Shapely polygons. It takes a *shell* definition (the outermost boundary) and *holes* definition (polygons that define null space within the shell).
+
+The shell and holes are defined as tuples of coordinates. Because there is only one shell, the shell tuple can be passed directly to `shell`, however, since there can be more than one hole, `holes` expects a `list` of tuples (even if there is only one hole).
+
+## Shapely geometries to Geopandas `GeoSeries`
+
+Example:
+
+```
+from shapely.geoemtry import Point
+from geopandas import GeoSeries
+
+# Create a donut with Shapely
+
+donut = Point(5, 5).buffer(5, 2).difference(Point(5, 5).buffer(3, 2))
+print(donut)
+
+donut_gs = GeoSeries(donut)
+print(donut_gs)
+```
+
+Note: The Shapely and GeoSeries objects have *print methods* that render as a plot, but they cannot be updated, modified (e.g. added to), etc.
+
+The benefit of the `GeoSeries` object is that attributes are easier to access. The Shapely donut could've been constructed with Polygon (which takes `shell` and `holes`), but this was a clever way to do it in terms of buffering and taking a difference, which is arguably more intuitive and easier to both implement and read.
+
+`donut_gs.exterior` accesses the *shell*.
+
+## References
+
+https://stackoverflow.com/questions/48770822/how-to-make-holes-in-a-polygon-in-shapely-python-having-polygons
+https://gis.stackexchange.com/questions/364691/getting-only-the-exterior-boundary-of-a-donut-shaped-geoseries-object

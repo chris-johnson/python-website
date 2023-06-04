@@ -1,0 +1,6 @@
+---
+title: "`geodatasets`"
+---
+
+This package provides geodatasets to learn with, which everyone is constantly doing. It probably has a dataset for every situation, so best to get familiar with this rather than trying to go out on the web and find your own.
+

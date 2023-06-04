@@ -1,0 +1,5 @@
+---
+title: "Python website"
+---
+
+This is a website for myself to teach from or reference myself.

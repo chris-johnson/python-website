@@ -1,0 +1,42 @@
+---
+title: "Basic tricks"
+---
+
+
+
+## `range()`, `list()`, and `[]`
+
+`range()` creates a `range` object. `[range(0, 10)]` will create a `list` object with the `range` object inside of it, but if you were expecting `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]`, that's not what you'll get. To get that, do `list(range(0, 10))`.
+
+## List comprehension
+
+`result = [i for i in range(0, 10)]` is equivalent to
+
+```
+result = []
+
+for i in range(0, 10):
+  result.append(i)
+```
+
+This can be extended with conditions. For example,
+
+```
+result = [i for i in range(0, 10) if i % 2 == 0]
+```
+
+is equivalent to
+
+```
+result = []
+
+for i in range(0, 10):
+  if i % 2 == 0:
+    result.append(i)
+```
+
+To create a list in reverse order, use a negative step: `ten_to_one = list(range(10, 0, -1))`.
+
+## References
+
+https://learnpython.com/blog/reverse-range-in-python/

@@ -1,0 +1,85 @@
+---
+title: "JupyterLab"
+---
+
+## JupyterLab overview
+
+Launcher allows launching a Jupyter Notebook, a Python console, a terminal, file (text, Markdown, or Python). This is where you get started.
+
+Jupyter Notebooks
+Jupyter console
+
+I cover the most essential keyboard shortcuts below, but if primed, the only one you need to know is <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>H</kbd> which will show all available keyboard shortcuts. (Press <kbd>Esc</kbd> or <kbd>Enter</kbd> to close that overlay.) On second thought, there are some keyboard shortcuts that are extraneous, so this is an attempt to detail the minimum set to do everything.
+
+## Technicalities
+
+TODO: Defined a kernel.
+
+## Jupyter Notebooks
+
+A Jupyter Notebook has two modes: Edit Mode and Command Mode.
+
+It's helpful to think as Command Mode being the default mode because of the keyboard shortcuts that are used to toggle between them. The <kbd>Enter</kbd> key will allow you to *enter* edit mode, while the <kbd>Esc</kbd> key will allow you to *escape* edit mode.
+
+### Command mode
+
+The structure of a Jupyter Notebook can be built out with or without the mouse. My personal preference is to remove reliance on the mouse and clicking buttons, which allows my hands to stay on the keyboard.
+
+A cell is always selected (highlighted). The simplest thing you can do is change which cell is selected. This can be accomplished by pressing <kbd>&uparrow;</kbd> (to move *up* one cell) and <kbd>&downarrow;</kbd> (to move *down* one cell). In Command Mode, movement is *cell-by-cell* (in contrast to what these same keys do when in Edit Mode).
+
+New cells can be added relative to the currently selected cell. To add a new cell, press <kbd>a</kbd> (for *above*) or <kbd>b</kbd> (for *below*).
+
+Multiple cells can be selected with <kbd>Shift</kbd> + <kbd>&uparrow</kbd> and <kbd>Shift</kbd> + <kbd>&downarrow;</kbd>. Cells can also be copy&ndash;pasted or cut&ndash;pasted. To copy a cell, press <kbd>C</kbd>. To cut a cell, press <kbd>X</kbd>. To paste a copied or cut cell, press <kbd>V</kbd>. Note: The cell will be pasted *below* the selected cell.
+
+One or more cells can be deleted with a sequence of two presses of <kbd>D</kbd>. (Think of the first press as yielding "Are you sure?" and the second press as answering "Oh, I'm sure&mdash;sure I won't regret this *at all*".)
+
+Selected cells of the same type can also be merged with <kbd>Shift</kbd> + <kbd>M</kbd>. To split a cell into two cells, press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>-</kbd>. The cursor position dictates how the cell is split. Everything before the cursor stays as-is and everything after the cursor gets moved to the new cell.
+
+To scroll up the notebook, press <kbd>Shift</kbd> + <kbd>Space</kbd>. To scroll down, simply press <kbd>Space</kbd>.
+
+#### Cell types
+
+By default, new cells will be *code cells*. To change a code cell to a *Markdown cell*, press <kbd>M</kbd> (for *Markdown*). To change a Markdown cell back to a code cell, press <kbd>Y</kbd>.
+
+If the Markdown cell has a header line, <kbd>1</kbd>, <kbd>2</kbd>, ..., <kbd>6</kbd> can be used to change it. If the Markdown cell has multiple header lines, only the first one will be affected. There is nothing wrong with having multiple header lines, but there is an arguable advantage to putting sections in their own cells as the nesting of sections can be updated without going into Edit Mode and manually adding or removing one or more `#`.
+
+#### Preferences
+
+To toggle line numbers on or off, press <kbd>Shift</kbd> + <kbd>L</kbd>. Line numbers are relative to the code cell.
+
+### Edit mode
+
+Edit mode is for writing and running code. The focus here is on capabilities around running code.
+
+When you've *entered* Edit Mode, there are a few common things to do.
+
+There are three keyboard chords for running code, and they all include <kbd>Enter</kbd>. To run the selected cell, press <kbd>Ctrl</kbd> + <kbd>Enter</kbd>. This escapes Edit Mode automatically, but keeps that cell selected. To run the selected cell but automatically select the next one, use <kbd>Alt</kbd> + <kbd>Enter</kbd>. To run the selected cell and insert a new cell and stay in Edit Mode, press <kbd>Shift</kbd> + <kbd>Enter</kbd>.
+
+If you need to display help for an object, postfix it with `?`, e.g. `print?`.
+
+To comment the line where the cursor is positioned, press <kbd>Ctrl</kbd> + <kbd>/</kbd>. The same chord can be used to uncomment the line.
+
+#### To cover
+
+1. It seems clicking to the left of a cell collapses it. When navigating in the direction of a collapsed cell and reaching it, it is skipped.
+2. The table of contents can be shown with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>K</kbd>, but this can also be accomplished by clicking the TOC tab (left side of the interface).
+
+#### Magic commands (ooh, ahh!)
+
+To see all available magic commands, run `%lsmagic` in a code cell. The primary language can be overridden in a cell with magic. For example, you can create a Bash cell with `%%bash`, a cell to input and render HTML with `%%HTML`, and a cell to write $\LaTeX$ with `%%latex`.
+
+### The Command Palette
+
+TODO: Cover anything useful about the Command Palette
+
+## Jupyter console?
+
+JupyterLab also provides the ability to setup a standard script&ndash;console. To do this, [fill in this blank].
+
+Right-click script and create a console editor. To run code, press <kbd>Shift</kbd> + <kbd>Enter</kbd>. A single line can be ran if the cursor is put at the beginning of the line, or a block of highleted code can be ran.
+
+
+
+## References
+
+https://stackoverflow.com/questions/38648286/in-jupyter-lab-execute-editor-code-in-python-console

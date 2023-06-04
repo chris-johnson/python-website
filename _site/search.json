@@ -1,0 +1,177 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Python website",
+    "section": "",
+    "text": "This is a website for myself to teach from or reference myself."
+  },
+  {
+    "objectID": "geospatial/geodatasets.html",
+    "href": "geospatial/geodatasets.html",
+    "title": "geodatasets",
+    "section": "",
+    "text": "This package provides geodatasets to learn with, which everyone is constantly doing. It probably has a dataset for every situation, so best to get familiar with this rather than trying to go out on the web and find your own."
+  },
+  {
+    "objectID": "geospatial/geopandas.html",
+    "href": "geospatial/geopandas.html",
+    "title": "geopandas",
+    "section": "",
+    "text": "Geopandas is a Python package for working with vector data.\nOfficial documenation\nOverlays accomplish set operations. Dissolve accomplishes aggregation."
+  },
+  {
+    "objectID": "geospatial/geopandas.html#this",
+    "href": "geospatial/geopandas.html#this",
+    "title": "geopandas",
+    "section": "This",
+    "text": "This\nimport geopandas as gpd"
+  },
+  {
+    "objectID": "geospatial/geopandas.html#reading-data",
+    "href": "geospatial/geopandas.html#reading-data",
+    "title": "geopandas",
+    "section": "Reading data",
+    "text": "Reading data\nNote: The Fiona package has a function to list the layers in an Esri geodatabase. It is fiona.listlayers(\"path/to/my-esri.gdb\"). This is nice because gpd.read_file() allows reading in a layer from an Esri geodatabase by name (in addition to positional reference). Example:\nlayer_names = fiona.listlayers(\"path/to/my-esri.gdb\")\nprint(layer_names)\n\n# Let \"land_use\" be the name of one of the feature classes in the geodatabase\n\nland_use = gpd.read_file(\n  \"path/to/my-esri.gdb\", \n  driver = \"FileGDB\", \n  layer = \"land_use\"\n)"
+  },
+  {
+    "objectID": "geospatial/geopandas.html#making-maps-with-geopandas",
+    "href": "geospatial/geopandas.html#making-maps-with-geopandas",
+    "title": "geopandas",
+    "section": "Making maps with Geopandas",
+    "text": "Making maps with Geopandas\nhttps://gis.stackexchange.com/questions/375582/zoom-to-a-plot-with-geopandas-based-on-data-from-csv-and-shapefile"
+  },
+  {
+    "objectID": "geospatial/geopandas.html#references",
+    "href": "geospatial/geopandas.html#references",
+    "title": "geopandas",
+    "section": "References",
+    "text": "References\nhttps://gis.stackexchange.com/questions/375582/zoom-to-a-plot-with-geopandas-based-on-data-from-csv-and-shapefile"
+  },
+  {
+    "objectID": "geospatial/index.html",
+    "href": "geospatial/index.html",
+    "title": "Geospatial overview",
+    "section": "",
+    "text": "TODO."
+  },
+  {
+    "objectID": "geospatial/rasterio.html",
+    "href": "geospatial/rasterio.html",
+    "title": "rasterio",
+    "section": "",
+    "text": "Python package Rasterio\nTo get the memory address of an object in Python, use print(id(object)). This will be important if Rasterio objects are a reference to data on disk, i.e. the raster isn’t loaded into memory (which is probably what happens as advancements in memory will always be riding the coat tail of image resolution)."
+  },
+  {
+    "objectID": "geospatial/shapely.html",
+    "href": "geospatial/shapely.html",
+    "title": "shapely",
+    "section": "",
+    "text": "from shapely.geometry import Polygon"
+  },
+  {
+    "objectID": "geospatial/shapely.html#create-polygons-from-scratch",
+    "href": "geospatial/shapely.html#create-polygons-from-scratch",
+    "title": "shapely",
+    "section": "Create polygons from scratch",
+    "text": "Create polygons from scratch\nPolygon() constructs Shapely polygons. It takes a shell definition (the outermost boundary) and holes definition (polygons that define null space within the shell).\nThe shell and holes are defined as tuples of coordinates. Because there is only one shell, the shell tuple can be passed directly to shell, however, since there can be more than one hole, holes expects a list of tuples (even if there is only one hole)."
+  },
+  {
+    "objectID": "geospatial/shapely.html#shapely-geometries-to-geopandas-geoseries",
+    "href": "geospatial/shapely.html#shapely-geometries-to-geopandas-geoseries",
+    "title": "shapely",
+    "section": "Shapely geometries to Geopandas GeoSeries",
+    "text": "Shapely geometries to Geopandas GeoSeries\nExample:\nfrom shapely.geoemtry import Point\nfrom geopandas import GeoSeries\n\n# Create a donut with Shapely\n\ndonut = Point(5, 5).buffer(5, 2).difference(Point(5, 5).buffer(3, 2))\nprint(donut)\n\ndonut_gs = GeoSeries(donut)\nprint(donut_gs)\nNote: The Shapely and GeoSeries objects have print methods that render as a plot, but they cannot be updated, modified (e.g. added to), etc.\nThe benefit of the GeoSeries object is that attributes are easier to access. The Shapely donut could’ve been constructed with Polygon (which takes shell and holes), but this was a clever way to do it in terms of buffering and taking a difference, which is arguably more intuitive and easier to both implement and read.\ndonut_gs.exterior accesses the shell."
+  },
+  {
+    "objectID": "geospatial/shapely.html#references",
+    "href": "geospatial/shapely.html#references",
+    "title": "shapely",
+    "section": "References",
+    "text": "References\nhttps://stackoverflow.com/questions/48770822/how-to-make-holes-in-a-polygon-in-shapely-python-having-polygons https://gis.stackexchange.com/questions/364691/getting-only-the-exterior-boundary-of-a-donut-shaped-geoseries-object"
+  },
+  {
+    "objectID": "ml/index.html",
+    "href": "ml/index.html",
+    "title": "ML overview",
+    "section": "",
+    "text": "TODO."
+  },
+  {
+    "objectID": "software/anaconda.html",
+    "href": "software/anaconda.html",
+    "title": "Anaconda",
+    "section": "",
+    "text": "https://www.anaconda.com/installation-success?source=installer"
+  },
+  {
+    "objectID": "software/index.html",
+    "href": "software/index.html",
+    "title": "Software overview",
+    "section": "",
+    "text": "TODO."
+  },
+  {
+    "objectID": "software/jupyterlab.html",
+    "href": "software/jupyterlab.html",
+    "title": "JupyterLab",
+    "section": "",
+    "text": "Launcher allows launching a Jupyter Notebook, a Python console, a terminal, file (text, Markdown, or Python). This is where you get started.\nJupyter Notebooks Jupyter console\nI cover the most essential keyboard shortcuts below, but if primed, the only one you need to know is Ctrl + Shift + H which will show all available keyboard shortcuts. (Press Esc or Enter to close that overlay.) On second thought, there are some keyboard shortcuts that are extraneous, so this is an attempt to detail the minimum set to do everything."
+  },
+  {
+    "objectID": "software/jupyterlab.html#technicalities",
+    "href": "software/jupyterlab.html#technicalities",
+    "title": "JupyterLab",
+    "section": "Technicalities",
+    "text": "Technicalities\nTODO: Defined a kernel."
+  },
+  {
+    "objectID": "software/jupyterlab.html#jupyter-notebooks",
+    "href": "software/jupyterlab.html#jupyter-notebooks",
+    "title": "JupyterLab",
+    "section": "Jupyter Notebooks",
+    "text": "Jupyter Notebooks\nA Jupyter Notebook has two modes: Edit Mode and Command Mode.\nIt’s helpful to think as Command Mode being the default mode because of the keyboard shortcuts that are used to toggle between them. The Enter key will allow you to enter edit mode, while the Esc key will allow you to escape edit mode.\n\nCommand mode\nThe structure of a Jupyter Notebook can be built out with or without the mouse. My personal preference is to remove reliance on the mouse and clicking buttons, which allows my hands to stay on the keyboard.\nA cell is always selected (highlighted). The simplest thing you can do is change which cell is selected. This can be accomplished by pressing ↑ (to move up one cell) and ↓ (to move down one cell). In Command Mode, movement is cell-by-cell (in contrast to what these same keys do when in Edit Mode).\nNew cells can be added relative to the currently selected cell. To add a new cell, press a (for above) or b (for below).\nMultiple cells can be selected with Shift + &uparrow and Shift + ↓. Cells can also be copy–pasted or cut–pasted. To copy a cell, press C. To cut a cell, press X. To paste a copied or cut cell, press V. Note: The cell will be pasted below the selected cell.\nOne or more cells can be deleted with a sequence of two presses of D. (Think of the first press as yielding “Are you sure?” and the second press as answering “Oh, I’m sure—sure I won’t regret this at all”.)\nSelected cells of the same type can also be merged with Shift + M. To split a cell into two cells, press Ctrl + Shift + -. The cursor position dictates how the cell is split. Everything before the cursor stays as-is and everything after the cursor gets moved to the new cell.\nTo scroll up the notebook, press Shift + Space. To scroll down, simply press Space.\n\nCell types\nBy default, new cells will be code cells. To change a code cell to a Markdown cell, press M (for Markdown). To change a Markdown cell back to a code cell, press Y.\nIf the Markdown cell has a header line, 1, 2, …, 6 can be used to change it. If the Markdown cell has multiple header lines, only the first one will be affected. There is nothing wrong with having multiple header lines, but there is an arguable advantage to putting sections in their own cells as the nesting of sections can be updated without going into Edit Mode and manually adding or removing one or more #.\n\n\nPreferences\nTo toggle line numbers on or off, press Shift + L. Line numbers are relative to the code cell.\n\n\n\nEdit mode\nEdit mode is for writing and running code. The focus here is on capabilities around running code.\nWhen you’ve entered Edit Mode, there are a few common things to do.\nThere are three keyboard chords for running code, and they all include Enter. To run the selected cell, press Ctrl + Enter. This escapes Edit Mode automatically, but keeps that cell selected. To run the selected cell but automatically select the next one, use Alt + Enter. To run the selected cell and insert a new cell and stay in Edit Mode, press Shift + Enter.\nIf you need to display help for an object, postfix it with ?, e.g. print?.\nTo comment the line where the cursor is positioned, press Ctrl + /. The same chord can be used to uncomment the line.\n\nTo cover\n\nIt seems clicking to the left of a cell collapses it. When navigating in the direction of a collapsed cell and reaching it, it is skipped.\nThe table of contents can be shown with Ctrl + Shift + K, but this can also be accomplished by clicking the TOC tab (left side of the interface).\n\n\n\nMagic commands (ooh, ahh!)\nTo see all available magic commands, run %lsmagic in a code cell. The primary language can be overridden in a cell with magic. For example, you can create a Bash cell with %%bash, a cell to input and render HTML with %%HTML, and a cell to write \\(\\LaTeX\\) with %%latex.\n\n\n\nThe Command Palette\nTODO: Cover anything useful about the Command Palette"
+  },
+  {
+    "objectID": "software/jupyterlab.html#jupyter-console",
+    "href": "software/jupyterlab.html#jupyter-console",
+    "title": "JupyterLab",
+    "section": "Jupyter console?",
+    "text": "Jupyter console?\nJupyterLab also provides the ability to setup a standard script–console. To do this, [fill in this blank].\nRight-click script and create a console editor. To run code, press Shift + Enter. A single line can be ran if the cursor is put at the beginning of the line, or a block of highleted code can be ran."
+  },
+  {
+    "objectID": "software/jupyterlab.html#references",
+    "href": "software/jupyterlab.html#references",
+    "title": "JupyterLab",
+    "section": "References",
+    "text": "References\nhttps://stackoverflow.com/questions/38648286/in-jupyter-lab-execute-editor-code-in-python-console"
+  },
+  {
+    "objectID": "fundamentals/index.html",
+    "href": "fundamentals/index.html",
+    "title": "Fundamentals overview",
+    "section": "",
+    "text": "TODO."
+  },
+  {
+    "objectID": "geospatial/geopandas.html#geoseries-objects",
+    "href": "geospatial/geopandas.html#geoseries-objects",
+    "title": "geopandas",
+    "section": "GeoSeries objects",
+    "text": "GeoSeries objects"
+  },
+  {
+    "objectID": "geospatial/geopandas.html#geodataframe-objects",
+    "href": "geospatial/geopandas.html#geodataframe-objects",
+    "title": "geopandas",
+    "section": "GeoDataFrame objects",
+    "text": "GeoDataFrame objects\n\nLet gdf be a GeoDataFrame object. gdf.total_bounds will return the minimum x-value, minimum y-value, maximum x-value, and maximum y-value (in that order). These can be unpackaged as\nx_min, y_min, x_max, y_max = gdf.total_bounds"
+  }
+]

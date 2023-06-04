@@ -1,0 +1,330 @@
+---
+title: "GIS with Python: Examples"
+---
+
+## YouTube: "Raster mask/clip python | Rasterio | GeoDev"
+
+This video showed how to mask a raster. In this example, it seems to crop it to a polygon (see video at 10:10 mark). My guess is that it used the shapefile as a mask. Values inside the mask were kept, while values outside would be set to 0 or null. Setting `crop = True` deleted the pixels outside of the mask. This is what I need for the donut buffer.
+
+```{python, eval = FALSE, python.reticulate = FALSE}
+import rasterio
+import rasterio.mask
+import fiona
+
+with fiona.open("path/to/data.shp", "r") as shapefile:
+  for feature in shapefile:
+    shapes = [feature["geometry"]]
+
+with rasterio.open("path/to/raster.shp") as src:
+  out_image, out_transform = rasterio.mask.mask(src, shapes, crop = True)
+  out_meta = src.meta
+
+out_meta.update({
+  "driver": "Gtiff",
+  "height": out_image.shape[1], # height
+  "width": out_image.shape[2], # width
+  "transform": out_transform
+})
+
+with rasterio.open("path/to/output/result.tif", "w", **out_meta) as dst:
+  dst.write(out_image)
+```
+
+Takeaways:
+
+`ras = rasterio.open()` opens a raster dataset into `ras`. 
+
+`show(ras)` will plot the raster.
+
+## Introduction to Rasterio (Python Tutorial for Beginners) [FSW \#12]
+
+This video works with raster datasets from NASA's Modis. It shows how to calculate NVDI from two bands of the same raster dataset. This knowledge should give insight into how to apply a transformation to a single band.
+
+```{python, eval = FALSE, python.reticulate = FALSE}
+import rasterio
+
+dataset = rasterio.open(url)
+
+dataset.name
+dataset.count # how many bands
+dataset.bounds # extent of raster ("borderings of the raster")
+dataset.crs # CRS in WKT format
+# ...plus many more
+
+dataset.close()
+```
+
+Suggests `with`, as it will automatically close the object (connection?):
+
+```{python, eval = FALSE, python.reticulate = FALSE}
+with rasterio.open(url) as dataset:
+  # Read the first band:
+  band1 = dataset.read(1)
+
+# Plot the band
+show(band1)
+```
+
+Calculate NVDI:
+
+```{python, eval = FALSE, python.reticulate = FALSE}
+with rasterio.open(url2) as dataset:
+  band2 = dataset.read(1)
+
+show(band2)
+
+# NVDI = (b2 - b1) / (b2 + b1)
+# Band 2 is NIR (near-infrared) and Band 1 is red
+
+nvdi = (band2 - band1) / (band2 + band1)
+
+show(nvdi)
+```
+
+Takeaways:
+
+Make sure to call `.close()` when finished with the raster.
+
+Questions:
+
+Is the object `dataset` deleted when the `with` statement (what do you call it?) completes?
+
+## "Converting shapefile into raster file using python" by GeoGIS Labs
+
+Note: This is a 2-video series.
+
+```{python, eval = FALSE, python.reticulate = FALSE}
+import os
+import geopandas as gpd
+import matplotlib.pyplot as plt
+from osgeo import gdal, ogr, osr
+%matplotlib inline
+
+os.chdir(r'path\to\dir\with\shapefile') # ...optional.
+
+shapefile = gpd.read_file(r'rel\path\to\file.shp')
+shapefile.head()
+```
+Let "ID" be the field in the shapefile that we want to rasterize.
+
+```{python, eval = FALSE, python.reticulate = FALSE}
+# Plot the shapefile so the to-be-created raster can be compared to it:
+
+fig, ax = plt.subplots(1, figsize = (8, 12))
+shapefile.plot(ax = ax, column = "ID", cmap = "jet", legend = True)
+plt.xlabel("Longitude")
+plt.ylabel("Latitude")
+plt.show()
+```
+
+Get the column names:
+
+```{python, eval = FALSE, python.reticulate = FALSE}
+input_shp = ogr.open(r'path\to\file.shp')
+
+# Get all layers inside of shapefile:
+source_layer = input_shp.GetLayer()
+
+# Get layer definitions
+defn = source_layer.GetLayerDefn()
+
+# Use the field count (excludes the geometry field) to extract the field names into a list:
+column_names = []
+for n in range(defn.GetFieldCount()):
+  fdefn = defn.GetFieldDefn(n)
+  column_names.append(fdefn.name)
+```
+
+Rasterize each field of the shapefile (this example has one field, but this blueprint is for all fields)
+
+```{python, eval = FALSE, python.reticulate = FALSE}
+output_raster_location = r'path\to\write\raster\to\r.tif'
+
+# Interactively, examine `shapefile.crs`. For this example, the CRS is defined by EPSG 4326
+pixel_size = 0.000325872
+
+# Get extent
+x_min, x_max, y_min, y_max = source_layer.GetExtent()
+
+# Determine how many rows and columns in the output raster:
+x_res = int(round((x_max - x_min)) / pixel_size)
+y_res = int(round((y_max - y_min)) / pixel_size)
+
+# Create raster:
+
+target_ds = gdal.GetDriverByName("GTiff").Create(output_raster_location, x_res, y_res, 1, gdal.GDT_Float32, ['COMPRESS=LZW']) # 1 is number of band, `gdal.GDT_Float32` is the type.
+
+target_ds.SetGeoTransform((x_min, pixel_size, 0.0, y_max, 0.0, -pixel_size))
+
+srse = osr.SpatialReference()
+proj = "EPSG:4326"
+srse.SetWellKnownGeogCS(proj)
+target_ds.SetProjection(srse.ExporttoWkt())
+
+band = target_ds.GetRasterBand(1)
+target_ds.GetRasterBand(1).SetNoDataVal(-9999)
+
+gdal.RasterizeLayer(target_ds, [1], source_layer, None, None, [1], options = ["ALL_TOUCHED=TRUE", "ATTRIBUTE=ID"]) # The attribute value *is* case sensitive.
+target_ds = None
+
+```
+Open raster with `xarray` (why?)
+
+```{python, eval = FALSE, python.reticulate = FALSE}
+import xarray as xr
+raster = xr.open_rasterio(output_raster_location).squeeze()
+```
+
+Plot the result:
+
+```{python, eval = FALSE, python.reticulate = FALSE}
+fig, ax = plt.subplots(1, figsize = (8, 12))
+raster.plot.imshow(cmap = "jet")
+plt.xlabel("Longitude")
+plt.ylabel("Latitude")
+plt.show()
+```
+
+## "Extract point value from a raster file with Python, Geopandas and Rasterio" by Hatari Labs
+
+```{python, eval = FALSE, python.reticulate = FALSE}
+import matplotlib.pyplot as plt
+import geopandas as gpd
+import rasterio
+from rasterio.plot import show
+
+pointData = gpd.read_file("path/to/file.shp")
+print(pointData.crs)
+pointData.plot()
+
+ndviRaster = rasterio.open("path/to/file.tiff")
+print(ndviRaster.crs)
+print(ndviRaster.count) # number of bands
+
+fig, ax = plt.subplots(figsize = (12, 12))
+pointData.plot(ax = ax, color = "orangered")
+show(ndviRaster, ax = ax)
+
+# Demo how to extract coordinates from a geodataframe:
+
+for point in pointData["geometry"]:
+  print(point.xy[0][0], point.xy[1][0]) # Coordinates (x, y)
+
+# Demo how to extract value from raster at each point:
+
+for point in plotData["geometry"]:
+  x = point.xy[0][0]
+  y = point.xy[1][0]
+  row, col = ndviRaster.index(x, y)
+  print("Point corresponds to row, col: %d, %d"%(row, col))
+  print("Raster value on point %.2f \n"%nvdiRaster.read(1)[row, col]) # "(1)" is the band. In this example, Band 1 (the only band)
+```
+
+## "GIS: Geopandas buffer using geodataframe while maintaining the dataframe" by Roel Van de Paar
+
+```{python, eval = FALSE, python.reticulate = FALSE}
+from shapely.geometry import Point
+import pandas as pd
+import geopandas as gpd
+
+p1 = Point((1, 2))
+p2 = Point((5, 6))
+
+df = pd.DataFrame({'a': [11, 12]})
+
+gdf = gpd.GeoDataFrame(df, geometry = [p1, p2])
+
+gdf
+
+# You can directly assign the buffer as a new geometry column to your GeoDataFrame:
+
+gdf["geometry"] = gdf.geometry.buffer(2)
+
+gdf.plot()
+```
+
+## "GIS: How to use GeoPandas buffer function to get buffer zones in kilometers" by Roel Van de Paar
+
+This example shows 
+
+* how to create a GeoDataFrame from a DataFrame
+* how to project a GeoDataFrame from a geographic coordinate system
+* how to see which events are within a distance of a location via a buffer and spatial join
+
+```{python, eval = FALSE, python.reticulate = FALSE}
+# Create some DataFrames that can be coerced to GeoDataFrames:
+
+events = pd.DataFrame(
+  {"id": 1, "longitude": 54.606402, "latitude": 18.347709},
+  {"id": 2, "longitude": 54.604681, "latitude": 18.346534},
+  {"id": 3, "longitude": 54.544322, "latitude": 18.293896},
+  {"id": 4, "longitude": 50.843233, "latitude": 11.130688}
+)
+
+locations = pd.DataFrame(
+  {"id": "a", "longitude": 54.604972, "latitude": 18.346815},
+  {"id": "b", "longitude": 54.605917, "latitude": 18.347249}
+)
+
+# Convert to GeoDataFrames
+
+events_gpd = gpd.GeoDataFrame(
+  events,
+  geometry = gpd.points_from_xy(events.longitude, events.latitude),
+  crs = "epsg:4326"
+)
+
+locations_gpd = gpd.GeoDataFrame(
+  locations, 
+  geometry = gpd.points_from_xy(locations.longitude, locations.latitude),
+  crs = "epsg:4326"
+)
+
+# Project to a coordinate system that uses meters, for example EPSG 32634
+
+locations_gpd = locations_gpd.to_crs("EPSG:32634")
+events_gpd = events_gpd.to_crs("EPSG:32634")
+
+# Buffer the locations (search radius for events) by 2000 meters
+
+locations_gpd.geometry = locations_gpd.geometry.buffer(2000, 6) # What does the "6" do?
+
+# Question: Which events are within 2000 meters of a location?
+# Answer:
+
+intersection = gpd.sjoin(location_gpd, events_gpd, how = "left")
+
+```
+
+## "GIS: How to create a multiple buffer using geopandas" by Roel Van der Paar
+
+This example demos how to buffer features with variable radii.
+
+Note: This may be implemented in `.buffer()`, but if not, this is a temporary solution.
+
+Let `track` be a GeoDataFrame.
+
+```{python, eval = FALSE, python.reticulate = FALSE}
+# Apply row-wise (`axis = 1`) the lambda which buffers that row's geometry (a point, `row.geometry`) with that row's buffer value (`row.buffer_value`)
+
+track["geometry"] = track.apply(
+  lambda row: row.geometry.buffer(row.buffer_value), axis = 1
+)
+```
+
+## StackOverflow: "Getting only the exterior boundary of a "donut-shaped" GeoSeries object"
+
+https://gis.stackexchange.com/questions/364691/getting-only-the-exterior-boundary-of-a-donut-shaped-geoseries-object
+
+```{python, eval = FALSE, python.reticulate = FALSE}
+
+from shapely.geometry import Point
+from geopandas import GeoSeries
+
+donut = Point(5 ,5).buffer(5, 2).difference(Point(5, 5).buffer(3, 2))
+print(donut)
+
+donut_gs = GeoSeries(donut)
+print(donut_gs.exterior)
+
+```
