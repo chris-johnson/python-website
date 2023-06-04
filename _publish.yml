@@ -1,0 +1,4 @@
+- source: project
+  quarto-pub:
+    - id: 7c990d91-1f97-4eb3-b520-ec77dc4af2d6
+      url: 'https://quartopub.com/sites/chrisjohnson/python-website'

@@ -1,17 +1,108 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "fundamentals/basic-tricks.html",
+    "href": "fundamentals/basic-tricks.html",
+    "title": "Basic tricks",
     "section": "",
-    "text": "About this site"
+    "text": "range() creates a range object. [range(0, 10)] will create a list object with the range object inside of it, but if you were expecting [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], that’s not what you’ll get. To get that, do list(range(0, 10))."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Python website",
+    "objectID": "fundamentals/basic-tricks.html#list-comprehension",
+    "href": "fundamentals/basic-tricks.html#list-comprehension",
+    "title": "Basic tricks",
+    "section": "List comprehension",
+    "text": "List comprehension\nresult = [i for i in range(0, 10)] is equivalent to\nresult = []\n\nfor i in range(0, 10):\n  result.append(i)\nThis can be extended with conditions. For example,\nresult = [i for i in range(0, 10) if i % 2 == 0]\nis equivalent to\nresult = []\n\nfor i in range(0, 10):\n  if i % 2 == 0:\n    result.append(i)\nTo create a list in reverse order, use a negative step: ten_to_one = list(range(10, 0, -1))."
+  },
+  {
+    "objectID": "fundamentals/basic-tricks.html#references",
+    "href": "fundamentals/basic-tricks.html#references",
+    "title": "Basic tricks",
+    "section": "References",
+    "text": "References\nhttps://learnpython.com/blog/reverse-range-in-python/"
+  },
+  {
+    "objectID": "fundamentals/index.html",
+    "href": "fundamentals/index.html",
+    "title": "Fundamentals overview",
     "section": "",
-    "text": "This is a website for myself to teach from or reference myself."
+    "text": "TODO."
+  },
+  {
+    "objectID": "fundamentals/matplotlib.html",
+    "href": "fundamentals/matplotlib.html",
+    "title": "Matplotlib",
+    "section": "",
+    "text": "Matplotlib works like an Etch A Sketch."
+  },
+  {
+    "objectID": "fundamentals/matplotlib.html#section",
+    "href": "fundamentals/matplotlib.html#section",
+    "title": "Matplotlib",
+    "section": "",
+    "text": "Let’s assume the following for this document:\nimport matplotlib.pyplot as plt"
+  },
+  {
+    "objectID": "fundamentals/matplotlib.html#section-1",
+    "href": "fundamentals/matplotlib.html#section-1",
+    "title": "Matplotlib",
+    "section": "",
+    "text": "Matplotlib can be imported with import matplotlib.pyplot as plt.\na = list(range(0, 10))\nb = list(range(10, 0, -1))\n\nplt.plot(a, b)\nNote: By default, plt.plot() will draw a line plot, connecting all the points in the order they’re provided in the lists.\nWithout an axis definition, the plot window will scale to fit all data points. But with an axis definition, we can zoom to a specific area. (This is especially helpful for working with geospatial data.)\nTo do this, use plt.axis(). Example:\na = [0, -100, 25, 67, -323]\nb = [0, 3, 7, 3, 9]\nLooking at the data, we can see that we have a one-to-many situation, and this line is going to traverse backwards and create a triangle. (Etch A Sketch?)\nLet’s zoom in on the triangle. To do so, use plt.axis(), and provide the x-axis limits and y-axis limits. The limits for both are min and max:\nplt.axis([-50, 80, 2, 8])\nplt.plot(a, b)\nTo finish it off, add a title and label the axes:\nplt.title(\"Triangle\")\nplt.xlabel(\"a\")\nplt.ylabel(\"b\")\nplt.axis([-50, 80, 2, 8])\nplt.plot(a, b)\nIt’s clear that all plot configurations should precede the call to plt.plot().\nAnother cool thing is overriding the tick labels:\nplt.xticks((-40, -20, 0, 20, 40, 60, 80), (\"h\", \"e\", \"l\", \"l\", \"o\", \"o\", \"o\"))\nNote: plt.*ticks() uses tuples and not lists.\nTo specify that the line should be colored red, add color = \"red\" to plt.plot(). For example, plt.plot(a, b, color = \"red\")."
+  },
+  {
+    "objectID": "fundamentals/matplotlib.html#other-plot-types",
+    "href": "fundamentals/matplotlib.html#other-plot-types",
+    "title": "Matplotlib",
+    "section": "Other plot types",
+    "text": "Other plot types\nplt.hist(a)"
+  },
+  {
+    "objectID": "fundamentals/matplotlib.html#subplots",
+    "href": "fundamentals/matplotlib.html#subplots",
+    "title": "Matplotlib",
+    "section": "Subplots",
+    "text": "Subplots"
+  },
+  {
+    "objectID": "fundamentals/matplotlib.html#other-functions",
+    "href": "fundamentals/matplotlib.html#other-functions",
+    "title": "Matplotlib",
+    "section": "Other functions",
+    "text": "Other functions\nplt.show() shows the current figure. plt.draw() re-draws the figure (useful if updates have been made)."
+  },
+  {
+    "objectID": "fundamentals/matplotlib.html#matplotlib-in-jupyter-notebooks",
+    "href": "fundamentals/matplotlib.html#matplotlib-in-jupyter-notebooks",
+    "title": "Matplotlib",
+    "section": "Matplotlib in Jupyter Notebooks",
+    "text": "Matplotlib in Jupyter Notebooks\nWhen developing a Jupyter Notebook, if you want your Matplotlib plots to appear in the notebook rather than in a separate window, run the magic %matplotlib inline in a cell (preferably near the top, but anywhere before the first plot will work)."
+  },
+  {
+    "objectID": "fundamentals/matplotlib.html#references",
+    "href": "fundamentals/matplotlib.html#references",
+    "title": "Matplotlib",
+    "section": "References",
+    "text": "References\nhttps://www.youtube.com/watch?v=nzKy9GY12yo https://stackoverflow.com/questions/23141452/difference-between-plt-draw-and-plt-show-in-matplotlib https://www.geeksforgeeks.org/place-plots-side-by-side-in-matplotlib/"
+  },
+  {
+    "objectID": "fundamentals/modules.html",
+    "href": "fundamentals/modules.html",
+    "title": "Modules",
+    "section": "",
+    "text": "From the official Python documentation\nimport foo                 # foo imported and bound locally\nimport foo.bar.baz         # foo, foo.bar, and foo.bar.baz imported, foo bound locally\nimport foo.bar.baz as fbb  # foo, foo.bar, and foo.bar.baz imported, foo.bar.baz bound as fbb\nfrom foo.bar import baz    # foo, foo.bar, and foo.bar.baz imported, foo.bar.baz bound as baz\nfrom foo import attr       # foo imported and foo.attr bound as attr\n“imported” means TODO\n“bound” means TODO"
+  },
+  {
+    "objectID": "fundamentals/modules.html#creating-your-own-modules",
+    "href": "fundamentals/modules.html#creating-your-own-modules",
+    "title": "Modules",
+    "section": "Creating your own modules",
+    "text": "Creating your own modules\nTODO"
+  },
+  {
+    "objectID": "fundamentals/modules.html#references",
+    "href": "fundamentals/modules.html#references",
+    "title": "Modules",
+    "section": "References",
+    "text": "References\nhttps://docs.python.org/3/reference/simple_stmts.html#import"
   },
   {
     "objectID": "geospatial/geodatasets.html",
@@ -40,6 +131,20 @@
     "title": "geopandas",
     "section": "Reading data",
     "text": "Reading data\nNote: The Fiona package has a function to list the layers in an Esri geodatabase. It is fiona.listlayers(\"path/to/my-esri.gdb\"). This is nice because gpd.read_file() allows reading in a layer from an Esri geodatabase by name (in addition to positional reference). Example:\nlayer_names = fiona.listlayers(\"path/to/my-esri.gdb\")\nprint(layer_names)\n\n# Let \"land_use\" be the name of one of the feature classes in the geodatabase\n\nland_use = gpd.read_file(\n  \"path/to/my-esri.gdb\", \n  driver = \"FileGDB\", \n  layer = \"land_use\"\n)"
+  },
+  {
+    "objectID": "geospatial/geopandas.html#geoseries-objects",
+    "href": "geospatial/geopandas.html#geoseries-objects",
+    "title": "geopandas",
+    "section": "GeoSeries objects",
+    "text": "GeoSeries objects"
+  },
+  {
+    "objectID": "geospatial/geopandas.html#geodataframe-objects",
+    "href": "geospatial/geopandas.html#geodataframe-objects",
+    "title": "geopandas",
+    "section": "GeoDataFrame objects",
+    "text": "GeoDataFrame objects\n\nLet gdf be a GeoDataFrame object. gdf.total_bounds will return the minimum x-value, minimum y-value, maximum x-value, and maximum y-value (in that order). These can be unpackaged as\nx_min, y_min, x_max, y_max = gdf.total_bounds"
   },
   {
     "objectID": "geospatial/geopandas.html#making-maps-with-geopandas",
@@ -98,6 +203,13 @@
     "text": "References\nhttps://stackoverflow.com/questions/48770822/how-to-make-holes-in-a-polygon-in-shapely-python-having-polygons https://gis.stackexchange.com/questions/364691/getting-only-the-exterior-boundary-of-a-donut-shaped-geoseries-object"
   },
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Python website",
+    "section": "",
+    "text": "This is a website for myself to teach from or reference myself."
+  },
+  {
     "objectID": "ml/index.html",
     "href": "ml/index.html",
     "title": "ML overview",
@@ -152,26 +264,5 @@
     "title": "JupyterLab",
     "section": "References",
     "text": "References\nhttps://stackoverflow.com/questions/38648286/in-jupyter-lab-execute-editor-code-in-python-console"
-  },
-  {
-    "objectID": "fundamentals/index.html",
-    "href": "fundamentals/index.html",
-    "title": "Fundamentals overview",
-    "section": "",
-    "text": "TODO."
-  },
-  {
-    "objectID": "geospatial/geopandas.html#geoseries-objects",
-    "href": "geospatial/geopandas.html#geoseries-objects",
-    "title": "geopandas",
-    "section": "GeoSeries objects",
-    "text": "GeoSeries objects"
-  },
-  {
-    "objectID": "geospatial/geopandas.html#geodataframe-objects",
-    "href": "geospatial/geopandas.html#geodataframe-objects",
-    "title": "geopandas",
-    "section": "GeoDataFrame objects",
-    "text": "GeoDataFrame objects\n\nLet gdf be a GeoDataFrame object. gdf.total_bounds will return the minimum x-value, minimum y-value, maximum x-value, and maximum y-value (in that order). These can be unpackaged as\nx_min, y_min, x_max, y_max = gdf.total_bounds"
   }
 ]
